@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +41,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.chatapp.ui.theme.ChatAppTheme
 import com.example.chatapp.ui.theme.EmperorDark
 import com.example.chatapp.ui.theme.Ivory
@@ -50,7 +58,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChatAppTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -65,31 +72,49 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun Login() {
         Column(modifier = Modifier
-            .background(EmperorDark)
+            .background(Ivory)
             .padding(24.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally) {
+            LottieIcon(animationRes = R.raw.lock_lottie)
             TextInput(inputType = InputType.Username)
-            TextInput(InputType.Password)
+            TextInput(inputType = InputType.Password)
             Button(onClick = {},
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Yellow)
             ) {
-                Text(text = "SIGN IN", Modifier.padding(vertical = 8.dp))
+                Text(text = "LOG IN", Modifier.padding(vertical = 8.dp))
             }
             Divider(
-                color = Color.White,
+                color = EmperorDark,
                 thickness = 1.dp,
                 modifier = Modifier.padding(top = 48.dp)
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Don't have an account?", color = Ivory)
+                Text(text = "Don't have an account?", color = EmperorDark)
                 TextButton(onClick = {}) {
                     Text(text = "SIGN UP", color = Yellow)
                 }
             }
         }
+    }
+
+    @Composable
+    fun LottieIcon(animationRes: Int,
+                   iconSize: Dp = 256.dp,
+                   repeatCount: Int = LottieConstants.IterateForever
+    ) {
+        val composition by rememberLottieComposition(
+            spec = LottieCompositionSpec.RawRes(animationRes)
+        )
+
+        val progress by animateLottieCompositionAsState(
+            composition = composition,
+            iterations = repeatCount,
+            restartOnPlay = true
+        )
+        LottieAnimation(composition = composition, progress = progress, Modifier.size(iconSize))
     }
 
     sealed class InputType (
@@ -125,6 +150,12 @@ class MainActivity : ComponentActivity() {
             leadingIcon = { Icon(inputType.icon, contentDescription = "Icon") },
             label = { Text(text = inputType.label) },
             singleLine = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+            ),
             keyboardOptions = inputType.keyboardOptions,
             visualTransformation = inputType.visualTransformation
         )
