@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally) {
-            LottieIcon(animationRes = R.raw.lock_lottie)
+            LottieIcon(animationRes = R.raw.chat_lottie)
             TextInput(inputType = InputType.Username)
             TextInput(inputType = InputType.Password)
             Button(onClick = {},
