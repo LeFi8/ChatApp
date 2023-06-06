@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -51,6 +53,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.chatapp.ui.theme.ChatAppTheme
 import com.example.chatapp.ui.theme.EmperorDark
 import com.example.chatapp.ui.theme.Ivory
+import com.example.chatapp.ui.theme.Poppins
 import com.example.chatapp.ui.theme.Yellow
 
 class MainActivity : ComponentActivity() {
@@ -77,6 +80,7 @@ class MainActivity : ComponentActivity() {
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text = stringResource(id = R.string.app_name), fontSize = 48.sp, fontFamily = Poppins)
             LottieIcon(animationRes = R.raw.chat_lottie)
             TextInput(inputType = InputType.Username)
             TextInput(inputType = InputType.Password)
@@ -84,7 +88,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Yellow)
             ) {
-                Text(text = "LOG IN", Modifier.padding(vertical = 8.dp))
+                Text(text = stringResource(id = R.string.login), Modifier.padding(vertical = 8.dp))
             }
             Divider(
                 color = EmperorDark,
@@ -92,9 +96,9 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.padding(top = 48.dp)
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Don't have an account?", color = EmperorDark)
+                Text(text = stringResource(id = R.string.dont_have_account), color = EmperorDark)
                 TextButton(onClick = {}) {
-                    Text(text = "SIGN UP", color = Yellow)
+                    Text(text = stringResource(id = R.string.signup), color = Yellow)
                 }
             }
         }
@@ -102,7 +106,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun LottieIcon(animationRes: Int,
-                   iconSize: Dp = 256.dp,
+                   iconSize: Dp = 192.dp,
                    repeatCount: Int = LottieConstants.IterateForever
     ) {
         val composition by rememberLottieComposition(
@@ -118,20 +122,20 @@ class MainActivity : ComponentActivity() {
     }
 
     sealed class InputType (
-        val label: String,
+        val labelId: Int,
         val icon: ImageVector,
         val keyboardOptions: KeyboardOptions,
         val visualTransformation: VisualTransformation
         ) {
         object Username : InputType(
-            label = "Username/E-mail",
+            labelId = R.string.username_mail,
             icon = Icons.Default.Person,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             visualTransformation = VisualTransformation.None
         )
 
         object Password : InputType(
-            label = "Password",
+            labelId = R.string.password,
             icon = Icons.Default.Lock,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation()
@@ -148,7 +152,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             leadingIcon = { Icon(inputType.icon, contentDescription = "Icon") },
-            label = { Text(text = inputType.label) },
+            label = { Text(text = stringResource(id = inputType.labelId)) },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
