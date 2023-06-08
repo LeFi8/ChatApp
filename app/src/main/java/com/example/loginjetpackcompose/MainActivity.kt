@@ -9,15 +9,19 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
+import com.example.loginjetpackcompose.authentication.Authentication
 import com.example.loginjetpackcompose.presentation.LoggedIn
 import com.example.loginjetpackcompose.presentation.Login
 import com.example.loginjetpackcompose.ui.theme.LoginJetpackComposeTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val isLoggedIn = remember { mutableStateOf(false) }
+            val authenticationService = Authentication()
             LoginJetpackComposeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -26,7 +30,13 @@ class MainActivity : ComponentActivity() {
                     if (isLoggedIn.value) {
                         LoggedIn(onLogoutClick = { isLoggedIn.value = false })
                     } else {
-                        Login(onLoginClick = { isLoggedIn.value = true })
+                        Login(onLoginClick = {
+                            lifecycleScope.launch {
+                                isLoggedIn.value = authenticationService.login(
+                                    "my@mail.cm", "123456", this@MainActivity
+                                )
+                            }
+                        })
                     }
                 }
             }
