@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.chatapp'
+    namespace 'com.example.loginjetpackcompose'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.chatapp"
+        applicationId "com.example.loginjetpackcompose"
         minSdk 26
         targetSdk 33
         versionCode 1

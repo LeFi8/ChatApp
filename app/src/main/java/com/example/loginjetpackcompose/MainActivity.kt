@@ -1,4 +1,4 @@
-package com.example.chatapp
+package com.example.loginjetpackcompose
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,14 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.chatapp.presentation.Login
-import com.example.chatapp.ui.theme.ChatAppTheme
+import com.example.loginjetpackcompose.presentation.Login
+import com.example.loginjetpackcompose.ui.theme.LoginJetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ChatAppTheme {
+            LoginJetpackComposeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

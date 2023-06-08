@@ -1,4 +1,4 @@
-package com.example.chatapp
+package com.example.loginjetpackcompose
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.chatapp.presentation
+package com.example.loginjetpackcompose.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,11 +45,11 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.chatapp.R
-import com.example.chatapp.ui.theme.EmperorDark
-import com.example.chatapp.ui.theme.Ivory
-import com.example.chatapp.ui.theme.Poppins
-import com.example.chatapp.ui.theme.Yellow
+import com.example.loginjetpackcompose.R
+import com.example.loginjetpackcompose.ui.theme.EmperorDark
+import com.example.loginjetpackcompose.ui.theme.Ivory
+import com.example.loginjetpackcompose.ui.theme.Poppins
+import com.example.loginjetpackcompose.ui.theme.Yellow
 
 @Preview
 @Composable
@@ -60,8 +60,8 @@ fun Login() {
         .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = stringResource(id = R.string.app_name), fontSize = 48.sp, fontFamily = Poppins)
-        LottieIcon(animationRes = R.raw.chat_lottie)
+        Text(text = stringResource(id = R.string.welcome), fontSize = 48.sp, fontFamily = Poppins)
+        LottieIcon(animationRes = R.raw.lock_lottie)
         TextInput(inputType = InputType.Username)
         TextInput(inputType = InputType.Password)
         Button(onClick = {},
