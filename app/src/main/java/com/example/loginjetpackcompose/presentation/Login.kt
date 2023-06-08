@@ -51,9 +51,8 @@ import com.example.loginjetpackcompose.ui.theme.Ivory
 import com.example.loginjetpackcompose.ui.theme.Poppins
 import com.example.loginjetpackcompose.ui.theme.Yellow
 
-@Preview
 @Composable
-fun Login() {
+fun Login(onLoginClick: () -> Unit) {
     Column(modifier = Modifier
         .background(Ivory)
         .padding(24.dp)
@@ -64,7 +63,7 @@ fun Login() {
         LottieIcon(animationRes = R.raw.lock_lottie)
         TextInput(inputType = InputType.Username)
         TextInput(inputType = InputType.Password)
-        Button(onClick = {},
+        Button(onClick = onLoginClick,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Yellow)
         ) {
