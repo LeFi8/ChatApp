@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.loginjetpackcompose.ui.theme.Ivory
+import com.example.loginjetpackcompose.ui.theme.Yellow
 
 @Composable
 fun LoggedIn(onLogoutClick: () -> Unit) {
@@ -24,7 +26,7 @@ fun LoggedIn(onLogoutClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "You are logged in")
-        Button(onClick = onLogoutClick) {
+        Button(onClick = onLogoutClick, colors = ButtonDefaults.buttonColors(containerColor = Yellow)) {
             Text(text = "Log out")
         }
     }
