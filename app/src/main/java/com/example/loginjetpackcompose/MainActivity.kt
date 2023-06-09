@@ -33,13 +33,18 @@ class MainActivity : ComponentActivity() {
                             authenticationService.logout()
                         })
                     } else {
-                        Login { email, password ->
+                        Login(
+                            onLoginClick = { email, password ->
                             lifecycleScope.launch {
                                 isLoggedIn.value = authenticationService.login(
                                     email, password, this@MainActivity
                                 )
                             }
-                        }
+                        },
+                            onNoAccountClick = {
+                                // TODO("change screens")
+                            }
+                        )
                     }
                 }
             }

@@ -51,7 +51,7 @@ import com.example.loginjetpackcompose.ui.theme.Poppins
 import com.example.loginjetpackcompose.ui.theme.Yellow
 
 @Composable
-fun Login(onLoginClick: (String, String) -> Unit) {
+fun Login(onLoginClick: (String, String) -> Unit, onNoAccountClick: () -> Unit) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -78,7 +78,7 @@ fun Login(onLoginClick: (String, String) -> Unit) {
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = stringResource(id = R.string.dont_have_account), color = EmperorDark)
-            TextButton(onClick = {}) {
+            TextButton(onClick = onNoAccountClick) {
                 Text(text = stringResource(id = R.string.signup), color = Yellow)
             }
         }
@@ -109,7 +109,7 @@ sealed class InputType (
     val visualTransformation: VisualTransformation
 ) {
     object Username : InputType(
-        labelId = R.string.user_mail,
+        labelId = R.string.email,
         icon = Icons.Default.Person,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         visualTransformation = VisualTransformation.None
