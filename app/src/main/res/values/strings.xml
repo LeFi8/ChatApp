@@ -9,4 +9,6 @@
     <string name="login_failed">Login failed %s</string>
     <string name="create_account">Create Account</string>
     <string name="your_mail">Your email address</string>
+    <string name="account_created">Account created successfully</string>
+    <string name="signup_failed">Failed to sign up: %s</string>
 </resources>
