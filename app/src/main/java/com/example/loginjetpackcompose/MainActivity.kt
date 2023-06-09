@@ -28,15 +28,18 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     if (isLoggedIn.value) {
-                        LoggedIn(onLogoutClick = { isLoggedIn.value = false })
+                        LoggedIn(onLogoutClick = {
+                            isLoggedIn.value = false
+                            authenticationService.logout()
+                        })
                     } else {
-                        Login(onLoginClick = {
+                        Login { email, password ->
                             lifecycleScope.launch {
                                 isLoggedIn.value = authenticationService.login(
-                                    "my@mail.cm", "123456", this@MainActivity
+                                    email, password, this@MainActivity
                                 )
                             }
-                        })
+                        }
                     }
                 }
             }

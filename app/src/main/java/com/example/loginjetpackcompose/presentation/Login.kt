@@ -51,7 +51,10 @@ import com.example.loginjetpackcompose.ui.theme.Poppins
 import com.example.loginjetpackcompose.ui.theme.Yellow
 
 @Composable
-fun Login(onLoginClick: () -> Unit) {
+fun Login(onLoginClick: (String, String) -> Unit) {
+    var user by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     Column(modifier = Modifier
         .background(Ivory)
         .padding(24.dp)
@@ -60,9 +63,9 @@ fun Login(onLoginClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = stringResource(id = R.string.welcome), fontSize = 48.sp, fontFamily = Poppins)
         LottieIcon(animationRes = R.raw.lock_lottie)
-        TextInput(inputType = InputType.Username)
-        TextInput(inputType = InputType.Password)
-        Button(onClick = onLoginClick,
+        TextInput(inputType = InputType.Username) { user = it }
+        TextInput(inputType = InputType.Password) { password = it }
+        Button(onClick = { onLoginClick(user, password) },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Yellow)
         ) {
@@ -106,7 +109,7 @@ sealed class InputType (
     val visualTransformation: VisualTransformation
 ) {
     object Username : InputType(
-        labelId = R.string.username_mail,
+        labelId = R.string.user_mail,
         icon = Icons.Default.Person,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         visualTransformation = VisualTransformation.None
@@ -122,11 +125,14 @@ sealed class InputType (
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextInput(inputType: InputType) {
+fun TextInput(inputType: InputType, onValueChange: (String) -> Unit) {
     var value by remember { mutableStateOf("") }
     TextField(
         value = value,
-        onValueChange = {value = it},
+        onValueChange = {
+            value = it
+            onValueChange(it)
+        },
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         leadingIcon = { Icon(inputType.icon, contentDescription = "Icon") },
