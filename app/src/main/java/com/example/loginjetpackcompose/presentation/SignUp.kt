@@ -59,14 +59,12 @@ fun SignUp() {
             fontFamily = Poppins
         )
         TextInput(inputType = InputType.Username) { user = it }
-
         Text(
             text = stringResource(id = R.string.your_password),
             modifier = Modifier.padding(start = 12.dp, top = 24.dp),
             fontFamily = Poppins
         )
         TextInput(inputType = InputType.Password) { password = it }
-
         Text(
             text = stringResource(id = R.string.repeat_password),
             modifier = Modifier.padding(start = 12.dp, top = 24.dp),
@@ -75,7 +73,6 @@ fun SignUp() {
         TextInput(inputType = InputType.Password) {
             if (it != password) passwordError = true
         }
-
         Divider(modifier = Modifier.padding(vertical = 32.dp))
         Button(
             onClick = {}, //TODO: validation
@@ -85,6 +82,5 @@ fun SignUp() {
         ) {
             Text(text = stringResource(id = R.string.signup), Modifier.padding(vertical = 8.dp))
         }
-
     }
 }
