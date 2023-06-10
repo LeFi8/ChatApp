@@ -5,6 +5,8 @@
     <string name="signup">SIGN UP</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>
+    <string name="login_w_google">Log in with Google</string>
+    <string name="google_logo">Google logo</string>
     <string name="dont_have_account">Don\'t have an account?</string>
     <string name="login_failed">Login failed %s</string>
     <string name="create_account">Create Account</string>

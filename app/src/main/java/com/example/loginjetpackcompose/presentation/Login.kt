@@ -1,15 +1,22 @@
 package com.example.loginjetpackcompose.presentation
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -31,12 +38,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,10 +64,11 @@ fun Login(onLoginClick: (String, String) -> Unit, onNoAccountClick: () -> Unit) 
     var password by remember { mutableStateOf("") }
 
     Column(modifier = Modifier
+        .fillMaxSize()
         .background(Ivory)
-        .padding(24.dp)
-        .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Bottom),
+        .verticalScroll(rememberScrollState())
+        .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = stringResource(id = R.string.welcome), fontSize = 48.sp, fontFamily = Poppins)
         LottieIcon(animationRes = R.raw.lock_lottie)
@@ -72,17 +80,55 @@ fun Login(onLoginClick: (String, String) -> Unit, onNoAccountClick: () -> Unit) 
         ) {
             Text(text = stringResource(id = R.string.login), Modifier.padding(vertical = 8.dp))
         }
+
+        DividerWithText(stringResource(id = R.string.or))
+
+        // TODO: google sign up logic
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor = EmperorDark
+            ),
+            border = BorderStroke(1.dp, color = EmperorDark)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_google_logo),
+                contentDescription = stringResource(id = R.string.google_logo),
+                modifier = Modifier
+                    .height(24.dp)
+                    .width(24.dp)
+            )
+            Text(text = stringResource(id = R.string.login_w_google), modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp))
+        }
+
         Divider(
             color = EmperorDark,
             thickness = 1.dp,
             modifier = Modifier.padding(top = 48.dp)
         )
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row (verticalAlignment = Alignment.CenterVertically) {
             Text(text = stringResource(id = R.string.dont_have_account), color = EmperorDark)
             TextButton(onClick = onNoAccountClick) {
                 Text(text = stringResource(id = R.string.signup), color = Yellow)
             }
         }
+    }
+}
+
+@Composable
+fun DividerWithText(text: String, modifier: Modifier = Modifier) {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+        Divider(modifier = Modifier.weight(1f))
+        Text(
+            text = text,
+            color = EmperorDark,
+            modifier = Modifier.padding(horizontal = 8.dp),
+            fontSize = 12.sp
+        )
+        Divider(modifier = Modifier.weight(1f))
     }
 }
 
