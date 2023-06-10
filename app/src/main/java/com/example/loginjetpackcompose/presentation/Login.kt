@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -62,56 +64,64 @@ fun Login(onLoginClick: (String, String) -> Unit, onNoAccountClick: () -> Unit) 
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Ivory)
-        .verticalScroll(rememberScrollState())
-        .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = stringResource(id = R.string.welcome), fontSize = 48.sp, fontFamily = Poppins)
-        LottieIcon(animationRes = R.raw.lock_lottie)
-        TextInput(inputType = InputType.Username) { user = it }
-        TextInput(inputType = InputType.Password) { password = it }
-        Button(onClick = { onLoginClick(user, password) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Yellow)
-        ) {
-            Text(text = stringResource(id = R.string.login), Modifier.padding(vertical = 8.dp))
-        }
-
-        DividerWithText(stringResource(id = R.string.or))
-
-        // TODO: google sign up logic
-        Button(
-            onClick = {},
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Ivory),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = EmperorDark
-            ),
-            border = BorderStroke(1.dp, color = EmperorDark)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_google_logo),
-                contentDescription = stringResource(id = R.string.google_logo),
+            Text(text = stringResource(id = R.string.welcome), fontSize = 48.sp, fontFamily = Poppins)
+            LottieIcon(animationRes = R.raw.lock_lottie)
+            TextInput(inputType = InputType.Username) { user = it }
+            TextInput(inputType = InputType.Password) { password = it }
+            Button(
+                onClick = { onLoginClick(user, password) },
                 modifier = Modifier
-                    .height(24.dp)
-                    .width(24.dp)
-            )
-            Text(text = stringResource(id = R.string.login_w_google), modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp))
-        }
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Yellow)
+            ) {
+                Text(text = stringResource(id = R.string.login), Modifier.padding(vertical = 8.dp))
+            }
+            DividerWithText(stringResource(id = R.string.or))
 
-        Divider(
-            color = EmperorDark,
-            thickness = 1.dp,
-            modifier = Modifier.padding(top = 48.dp)
-        )
-        Row (verticalAlignment = Alignment.CenterVertically) {
-            Text(text = stringResource(id = R.string.dont_have_account), color = EmperorDark)
-            TextButton(onClick = onNoAccountClick) {
-                Text(text = stringResource(id = R.string.signup), color = Yellow)
+            // TODO: google sign up logic
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = EmperorDark
+                ),
+                border = BorderStroke(1.dp, color = EmperorDark)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_google_logo),
+                    contentDescription = stringResource(id = R.string.google_logo),
+                    modifier = Modifier
+                        .height(24.dp)
+                        .width(24.dp)
+                )
+                Text(
+                    text = stringResource(id = R.string.login_w_google),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
+                )
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(text = stringResource(id = R.string.dont_have_account), color = EmperorDark)
+                TextButton(onClick = onNoAccountClick) {
+                    Text(text = stringResource(id = R.string.signup), color = Yellow)
+                }
             }
         }
     }
