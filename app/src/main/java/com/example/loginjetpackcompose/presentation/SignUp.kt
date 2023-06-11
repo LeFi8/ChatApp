@@ -17,9 +17,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.loginjetpackcompose.R
@@ -27,9 +27,8 @@ import com.example.loginjetpackcompose.ui.theme.Ivory
 import com.example.loginjetpackcompose.ui.theme.Poppins
 import com.example.loginjetpackcompose.ui.theme.Yellow
 
-@Preview
 @Composable
-fun SignUp() {
+fun SignUp(onSignUpButtonClick: (String, String) -> Unit) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordError by remember { mutableStateOf(false) }
@@ -71,14 +70,26 @@ fun SignUp() {
             fontFamily = Poppins
         )
         TextInput(inputType = InputType.Password) {
-            if (it != password) passwordError = true
+            passwordError = it != password
         }
+
+        if (passwordError) {
+            Text(
+                text = "Passwords are not matching",
+                color = Color.Red,
+                fontFamily = Poppins,
+                modifier = Modifier.padding(start = 12.dp),
+                fontSize = 12.sp
+            )
+        }
+
         Divider(modifier = Modifier.padding(vertical = 32.dp))
         Button(
-            onClick = {}, //TODO: validation
+            onClick = { onSignUpButtonClick(user, password) },
             modifier = Modifier
                 .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Yellow)
+            colors = ButtonDefaults.buttonColors(containerColor = Yellow),
+            enabled = !passwordError
         ) {
             Text(text = stringResource(id = R.string.signup), Modifier.padding(vertical = 8.dp))
         }

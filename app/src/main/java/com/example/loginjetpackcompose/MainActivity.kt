@@ -36,7 +36,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     BackHandler(
                         enabled = (screenState.value == ScreenState.SIGNUP) &&
-                                (screenState.value != ScreenState.LOGIN)) {
+                                (screenState.value != ScreenState.LOGIN)
+                    ) {
                         screenState.value = ScreenState.LOGIN
                     }
 
@@ -48,7 +49,8 @@ class MainActivity : ComponentActivity() {
                                         isLoggedIn.value = authenticationService.login(
                                             email, password, this@MainActivity
                                         )
-                                        if (isLoggedIn.value) screenState.value = ScreenState.LOGGED_IN
+                                        if (isLoggedIn.value) screenState.value =
+                                            ScreenState.LOGGED_IN
                                     }
                                 },
                                 onNoAccountClick = {
@@ -58,7 +60,19 @@ class MainActivity : ComponentActivity() {
                         }
 
                         ScreenState.SIGNUP -> {
-                            SignUp()
+                            SignUp(
+                                onSignUpButtonClick = { email, password ->
+                                    lifecycleScope.launch {
+                                        val registrationSuccessful = authenticationService.register(
+                                            email,
+                                            password,
+                                            this@MainActivity
+                                        )
+                                        if (registrationSuccessful)
+                                            screenState.value = ScreenState.LOGIN
+                                    }
+                                }
+                            )
                         }
 
                         ScreenState.LOGGED_IN -> {
