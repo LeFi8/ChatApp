@@ -75,7 +75,7 @@ fun SignUp(onSignUpButtonClick: (String, String) -> Unit) {
 
         if (passwordError) {
             Text(
-                text = "Passwords are not matching",
+                text = stringResource(id = R.string.passwords_not_matching),
                 color = Color.Red,
                 fontFamily = Poppins,
                 modifier = Modifier.padding(start = 12.dp),

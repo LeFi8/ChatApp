@@ -16,4 +16,5 @@
     <string name="or">OR</string>
     <string name="account_created">Account created successfully</string>
     <string name="signup_failed">Failed to sign up: %s</string>
+    <string name="passwords_not_matching">Passwords are not matching</string>
 </resources>
