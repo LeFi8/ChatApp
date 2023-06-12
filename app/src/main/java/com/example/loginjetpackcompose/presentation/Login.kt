@@ -60,7 +60,7 @@ import com.example.loginjetpackcompose.ui.theme.Poppins
 import com.example.loginjetpackcompose.ui.theme.Yellow
 
 @Composable
-fun Login(onLoginClick: (String, String) -> Unit, onNoAccountClick: () -> Unit) {
+fun Login(onLoginClick: (String, String) -> Unit, onNoAccountClick: () -> Unit, onGoogleLoginClick: () -> Unit) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -96,7 +96,7 @@ fun Login(onLoginClick: (String, String) -> Unit, onNoAccountClick: () -> Unit) 
 
             // TODO: google sign up logic
             Button(
-                onClick = {},
+                onClick = onGoogleLoginClick,
                 modifier = Modifier
                     .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(

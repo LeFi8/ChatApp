@@ -55,6 +55,16 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onNoAccountClick = {
                                     screenState.value = ScreenState.SIGNUP
+                                },
+                                onGoogleLoginClick = {
+                                    //TODO: finish
+                                    /*lifecycleScope.launch {
+                                        isLoggedIn.value = authenticationService.googleLogin(
+                                            this@MainActivity
+                                        )
+                                        if (isLoggedIn.value) screenState.value =
+                                            ScreenState.LOGGED_IN
+                                    }*/
                                 }
                             )
                         }
