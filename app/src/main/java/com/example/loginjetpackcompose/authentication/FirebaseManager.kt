@@ -77,10 +77,10 @@ class FirebaseManager {
         val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
         return try {
             auth.signInWithCredential(firebaseCredential).await()
-            Toast.makeText(activity, "Google login successful", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, auth.currentUser?.email, Toast.LENGTH_SHORT).show()
             true
         } catch (e : Exception) {
-            Toast.makeText(activity, "Google login failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, activity.getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
             false
         }
     }
