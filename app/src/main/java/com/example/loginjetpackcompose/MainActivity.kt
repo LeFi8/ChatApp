@@ -86,8 +86,12 @@ class MainActivity : ComponentActivity() {
                                         isLoggedIn.value = authenticationService.login(
                                             email, password, this@MainActivity
                                         )
-                                        if (isLoggedIn.value) screenState.value =
-                                            ScreenState.LOGGED_IN
+                                        if (isLoggedIn.value) {
+                                            screenState.value = ScreenState.LOGGED_IN
+                                            sharedPreferences.edit().putBoolean(
+                                                getString(R.string.is_logged_in), true
+                                            ).apply()
+                                        }
                                     }
                                 },
                                 onNoAccountClick = {
