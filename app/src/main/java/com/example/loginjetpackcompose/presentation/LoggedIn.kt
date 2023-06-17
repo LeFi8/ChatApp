@@ -11,12 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.loginjetpackcompose.R
 import com.example.loginjetpackcompose.ui.theme.Ivory
 import com.example.loginjetpackcompose.ui.theme.Yellow
 
 @Composable
-fun LoggedIn(onLogoutClick: () -> Unit) {
+fun LoggedIn(onLogoutClick: () -> Unit, userInfo: String) {
     Column(
         modifier = Modifier
             .background(Ivory)
@@ -25,7 +27,8 @@ fun LoggedIn(onLogoutClick: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "You are logged in")
+        Text(text = stringResource(id = R.string.logged_in_as))
+        Text(text = userInfo)
         Button(onClick = onLogoutClick, colors = ButtonDefaults.buttonColors(containerColor = Yellow)) {
             Text(text = "Log out")
         }

@@ -1,12 +1,11 @@
 package com.example.loginjetpackcompose.authentication
 
 import android.app.Activity
+import android.content.Context
 import android.widget.Toast
 import com.example.loginjetpackcompose.R
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
@@ -31,8 +30,17 @@ class FirebaseManager {
     }
 
 
-    fun logout() {
+    fun logout(activity: Activity) {
+        Toast.makeText(
+            activity,
+            activity.getString(R.string.logged_out),
+            Toast.LENGTH_SHORT
+        ).show()
         auth.signOut()
+    }
+
+    fun getUserMail(): String {
+        return auth.currentUser?.email.toString()
     }
 
     suspend fun register(email: String, password: String, activity: Activity): Boolean {
@@ -51,35 +59,10 @@ class FirebaseManager {
         }
     }
 
-    //TODO: finish
-    suspend fun googleLogin(activity: Activity): Boolean {
-        val oneTapClient = Identity.getSignInClient(activity);
-        val signInRequest = BeginSignInRequest.builder()
-            .setPasswordRequestOptions(
-                BeginSignInRequest.PasswordRequestOptions.builder()
-                .setSupported(true)
-                .build())
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                .setSupported(true)
-                .setServerClientId(activity.getString(R.string.default_web_client_id))
-                .setFilterByAuthorizedAccounts(true)
-                .build())
-            .setAutoSelectEnabled(true)
+    fun googleSignInOptionsBuilder(context: Context): GoogleSignInOptions {
+        return GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(context.getString(R.string.default_web_client_id))
+            .requestEmail()
             .build()
-
-        val googleCredential = oneTapClient.getSignInCredentialFromIntent(activity.intent)
-        val idToken = googleCredential.googleIdToken
-
-        val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-        return try {
-            auth.signInWithCredential(firebaseCredential).await()
-            Toast.makeText(activity, auth.currentUser?.email, Toast.LENGTH_SHORT).show()
-            true
-        } catch (e : Exception) {
-            Toast.makeText(activity, activity.getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
-            false
-        }
     }
-
 }

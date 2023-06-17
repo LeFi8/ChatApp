@@ -17,4 +17,7 @@
     <string name="account_created">Account created successfully</string>
     <string name="signup_failed">Failed to sign up: %s</string>
     <string name="passwords_not_matching">Passwords are not matching</string>
+    <string name="logged_in_as">You are logged in as</string>
+    <string name="logged_out">Logged out</string>
+    <string name="google_login_successful">Google login successful</string>
 </resources>

@@ -1,14 +1,17 @@
 package com.example.loginjetpackcompose
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.example.loginjetpackcompose.authentication.FirebaseManager
@@ -16,7 +19,11 @@ import com.example.loginjetpackcompose.presentation.LoggedIn
 import com.example.loginjetpackcompose.presentation.Login
 import com.example.loginjetpackcompose.presentation.ScreenState
 import com.example.loginjetpackcompose.presentation.SignUp
+import com.example.loginjetpackcompose.presentation.rememberFirebaseGoogleAuthLauncher
 import com.example.loginjetpackcompose.ui.theme.LoginJetpackComposeTheme
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -28,6 +35,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             val isLoggedIn = remember { mutableStateOf(false) }
             val screenState = remember { mutableStateOf(ScreenState.LOGIN) }
+            var user by remember { mutableStateOf(Firebase.auth.currentUser) }
+            val launcher = rememberFirebaseGoogleAuthLauncher(
+                onAuthComplete = { result ->
+                    user = result.user
+                    isLoggedIn.value = true
+                    screenState.value = ScreenState.LOGGED_IN
+                    Toast.makeText(
+                        this,
+                        getString(R.string.google_login_successful),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onAuthError = {
+                    user = null
+                }
+            )
 
             LoginJetpackComposeTheme {
                 Surface(
@@ -57,14 +80,11 @@ class MainActivity : ComponentActivity() {
                                     screenState.value = ScreenState.SIGNUP
                                 },
                                 onGoogleLoginClick = {
-                                    //TODO: finish
-                                    /*lifecycleScope.launch {
-                                        isLoggedIn.value = authenticationService.googleLogin(
-                                            this@MainActivity
-                                        )
-                                        if (isLoggedIn.value) screenState.value =
-                                            ScreenState.LOGGED_IN
-                                    }*/
+                                    val googleSignInClient = GoogleSignIn.getClient(
+                                        applicationContext,
+                                        authenticationService.googleSignInOptionsBuilder(this)
+                                    )
+                                    launcher.launch(googleSignInClient.signInIntent)
                                 }
                             )
                         }
@@ -86,11 +106,14 @@ class MainActivity : ComponentActivity() {
                         }
 
                         ScreenState.LOGGED_IN -> {
-                            LoggedIn(onLogoutClick = {
-                                isLoggedIn.value = false
-                                authenticationService.logout()
-                                screenState.value = ScreenState.LOGIN
-                            })
+                            LoggedIn(
+                                onLogoutClick = {
+                                    isLoggedIn.value = false
+                                    authenticationService.logout(this)
+                                    screenState.value = ScreenState.LOGIN
+                                },
+                                authenticationService.getUserMail()
+                            )
                         }
                     }
                 }
