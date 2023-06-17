@@ -20,4 +20,6 @@
     <string name="logged_in_as">You are logged in as</string>
     <string name="logged_out">Logged out</string>
     <string name="google_login_successful">Google login successful</string>
+
+    <string name="is_logged_in">isLoggedIn</string>
 </resources>

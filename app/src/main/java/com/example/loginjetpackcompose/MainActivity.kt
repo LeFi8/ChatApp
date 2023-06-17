@@ -1,6 +1,8 @@
 package com.example.loginjetpackcompose
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.preference.PreferenceManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -29,12 +31,20 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     private val authenticationService = FirebaseManager()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
         setContent {
-            val isLoggedIn = remember { mutableStateOf(false) }
-            val screenState = remember { mutableStateOf(ScreenState.LOGIN) }
+            val isLoggedIn = remember {
+                mutableStateOf(
+                    sharedPreferences.getBoolean(getString(R.string.is_logged_in), false)
+                )
+            }
+            val screenState =
+                remember { mutableStateOf(if (isLoggedIn.value) ScreenState.LOGGED_IN else ScreenState.LOGIN) }
             var user by remember { mutableStateOf(Firebase.auth.currentUser) }
             val launcher = rememberFirebaseGoogleAuthLauncher(
                 onAuthComplete = { result ->
@@ -46,6 +56,10 @@ class MainActivity : ComponentActivity() {
                         getString(R.string.google_login_successful),
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    sharedPreferences.edit().putBoolean(
+                        getString(R.string.is_logged_in), true
+                    ).apply()
                 },
                 onAuthError = {
                     user = null
@@ -111,6 +125,10 @@ class MainActivity : ComponentActivity() {
                                     isLoggedIn.value = false
                                     authenticationService.logout(this)
                                     screenState.value = ScreenState.LOGIN
+
+                                    sharedPreferences.edit().putBoolean(
+                                        getString(R.string.is_logged_in), false
+                                    ).apply()
                                 },
                                 authenticationService.getUserMail()
                             )
